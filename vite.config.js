@@ -11,6 +11,14 @@ export default defineConfig({
   },
   server: {
     port: 5173,
-    host: true
+    host: true,
+    // SPAのルーティングをサポート
+    historyApiFallback: true
+  },
+  preview: {
+    port: 4173,
+    host: true,
+    // プレビューモードでもSPAのルーティングをサポート
+    historyApiFallback: true
   }
 })
