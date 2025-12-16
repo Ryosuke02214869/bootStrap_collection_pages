@@ -1,244 +1,484 @@
 <template>
-  <div class="d-flex">
-    <!-- サイドバー -->
-    <div class="sidebar p-4" style="width: 280px;">
-      <div class="mb-4 d-flex align-items-center gap-2">
-        <div
-          class="d-flex align-items-center justify-content-center"
-          style="
-            width: 40px;
-            height: 40px;
-            background: linear-gradient(135deg, var(--primary-blue), var(--accent-cyan));
-            border-radius: 10px;
-            color: white;
-            font-weight: bold;
-          "
-        >
-          SY
+  <div class="min-vh-100">
+    <!-- ヘッダー -->
+    <header class="glass-card mb-5" style="border-radius: 0 0 24px 24px">
+      <div class="container py-5">
+        <div class="text-center">
+          <div
+            class="d-inline-flex align-items-center justify-content-center mb-3"
+            style="
+              width: 80px;
+              height: 80px;
+              background: linear-gradient(135deg, var(--primary-blue), var(--accent-cyan));
+              border-radius: 20px;
+              color: white;
+              font-weight: bold;
+              font-size: 32px;
+            "
+          >
+            B5
+          </div>
+          <h1 class="display-4 fw-bold mb-3" style="color: var(--text-primary)">
+            Bootstrap 5 学習ページ
+          </h1>
+          <p class="lead" style="color: var(--text-secondary); max-width: 600px; margin: 0 auto">
+            Bootstrap 5の各コンポーネントとユーティリティを学べる実践的なサンプル集です。<br />
+            各ページでは実装例とコードサンプルを確認できます。
+          </p>
         </div>
-        <span class="h5 mb-0" style="color: var(--text-primary); font-weight: 600">System</span>
       </div>
-
-      <nav class="mt-4">
-        <a href="#" class="sidebar-item active">
-          <span>📊</span>
-          <span>ダッシュボード</span>
-        </a>
-        <a href="#" class="sidebar-item">
-          <span>📈</span>
-          <span>アナリティクス</span>
-        </a>
-        <a href="#" class="sidebar-item">
-          <span>👥</span>
-          <span>ユーザー管理</span>
-        </a>
-        <a href="#" class="sidebar-item">
-          <span>⚙️</span>
-          <span>設定</span>
-        </a>
-        <a href="#" class="sidebar-item">
-          <span>📁</span>
-          <span>ファイル</span>
-        </a>
-      </nav>
-    </div>
+    </header>
 
     <!-- メインコンテンツ -->
-    <div class="flex-grow-1 p-4" style="overflow-y: auto; height: 100vh">
-      <!-- ヘッダー -->
-      <div class="d-flex justify-content-between align-items-center mb-4">
-        <h1 class="h2 mb-0" style="color: var(--text-primary); font-weight: 700">
-          ダッシュボード
-        </h1>
-        <div class="d-flex gap-3 align-items-center">
-          <input
-            type="search"
-            class="form-control"
-            placeholder="検索..."
+    <div class="container pb-5">
+      <!-- レイアウト系 -->
+      <section class="mb-5">
+        <h2 class="h3 mb-4 d-flex align-items-center gap-2" style="color: var(--text-primary)">
+          <span
+            class="d-inline-flex align-items-center justify-content-center"
             style="
-              width: 300px;
-              border: 1px solid var(--border-color);
+              width: 40px;
+              height: 40px;
+              background: linear-gradient(135deg, #667eea, #764ba2);
               border-radius: 10px;
-              background: var(--bg-card);
+              font-size: 20px;
             "
-          />
-          <button class="btn btn-primary-custom px-4" style="border-radius: 10px">
-            新規作成
-          </button>
-        </div>
-      </div>
-
-      <!-- 統計カード -->
-      <div class="row g-4 mb-4">
-        <div class="col-12 col-sm-6 col-lg-3" v-for="stat in stats" :key="stat.id">
-          <div class="stat-card">
-            <div class="d-flex justify-content-between align-items-start">
-              <div
-                class="stat-icon"
-                :style="{ background: `linear-gradient(135deg, ${stat.color1}, ${stat.color2})` }"
-              >
-                <span style="filter: brightness(0) invert(1)">{{ stat.icon }}</span>
+          >
+            📐
+          </span>
+          <span class="fw-bold">レイアウト</span>
+        </h2>
+        <div class="row g-3">
+          <div class="col-12 col-md-6 col-lg-4" v-for="page in layoutPages" :key="page.path">
+            <router-link :to="page.path" class="text-decoration-none">
+              <div class="page-card glass-card p-4 h-100">
+                <div class="d-flex align-items-start gap-3">
+                  <span class="page-icon">{{ page.icon }}</span>
+                  <div>
+                    <h3 class="h6 fw-bold mb-2" style="color: var(--text-primary)">
+                      {{ page.title }}
+                    </h3>
+                    <p class="small mb-0" style="color: var(--text-secondary)">
+                      {{ page.description }}
+                    </p>
+                  </div>
+                </div>
               </div>
-              <span :class="['stat-change', stat.changeType]">
-                {{ stat.change }}
-              </span>
-            </div>
-            <div class="stat-value">{{ stat.value }}</div>
-            <div class="stat-label">{{ stat.label }}</div>
+            </router-link>
           </div>
         </div>
-      </div>
+      </section>
 
-      <!-- グラフとアクティビティ -->
-      <div class="row g-4">
-        <!-- パフォーマンス推移 -->
-        <div class="col-12 col-lg-8">
-          <div class="glass-card p-4">
-            <div class="d-flex justify-content-between align-items-center mb-4">
-              <h3 class="h5 mb-0" style="color: var(--text-primary); font-weight: 600">
-                パフォーマンス推移
-              </h3>
-              <div class="btn-group btn-group-sm" role="group">
-                <button type="button" class="btn btn-outline-secondary">日</button>
-                <button type="button" class="btn btn-outline-secondary active">週</button>
-                <button type="button" class="btn btn-outline-secondary">月</button>
-                <button type="button" class="btn btn-outline-secondary">年</button>
+      <!-- コンポーネント系 - 基本 -->
+      <section class="mb-5">
+        <h2 class="h3 mb-4 d-flex align-items-center gap-2" style="color: var(--text-primary)">
+          <span
+            class="d-inline-flex align-items-center justify-content-center"
+            style="
+              width: 40px;
+              height: 40px;
+              background: linear-gradient(135deg, #f093fb, #f5576c);
+              border-radius: 10px;
+              font-size: 20px;
+            "
+          >
+            🧩
+          </span>
+          <span class="fw-bold">コンポーネント - 基本</span>
+        </h2>
+        <div class="row g-3">
+          <div class="col-12 col-md-6 col-lg-4" v-for="page in basicComponents" :key="page.path">
+            <router-link :to="page.path" class="text-decoration-none">
+              <div class="page-card glass-card p-4 h-100">
+                <div class="d-flex align-items-start gap-3">
+                  <span class="page-icon">{{ page.icon }}</span>
+                  <div>
+                    <h3 class="h6 fw-bold mb-2" style="color: var(--text-primary)">
+                      {{ page.title }}
+                    </h3>
+                    <p class="small mb-0" style="color: var(--text-secondary)">
+                      {{ page.description }}
+                    </p>
+                  </div>
+                </div>
               </div>
-            </div>
-            <div class="text-center py-5" style="color: var(--text-secondary)">
-              <p>チャートデータを表示</p>
-              <small>ここにChart.jsなどのグラフライブラリを統合できます</small>
-            </div>
+            </router-link>
           </div>
         </div>
+      </section>
 
-        <!-- 最近のアクティビティ -->
-        <div class="col-12 col-lg-4">
-          <div class="glass-card p-4">
-            <h3 class="h5 mb-4" style="color: var(--text-primary); font-weight: 600">
-              最近のアクティビティ
-            </h3>
-            <div v-for="activity in activities" :key="activity.id" class="activity-item">
-              <div
-                class="activity-icon"
-                :style="{
-                  background: `linear-gradient(135deg, ${activity.color1}, ${activity.color2})`
-                }"
-              >
-                <span style="filter: brightness(0) invert(1)">{{ activity.icon }}</span>
+      <!-- コンポーネント系 - フォーム -->
+      <section class="mb-5">
+        <h2 class="h3 mb-4 d-flex align-items-center gap-2" style="color: var(--text-primary)">
+          <span
+            class="d-inline-flex align-items-center justify-content-center"
+            style="
+              width: 40px;
+              height: 40px;
+              background: linear-gradient(135deg, #fa709a, #fee140);
+              border-radius: 10px;
+              font-size: 20px;
+            "
+          >
+            📝
+          </span>
+          <span class="fw-bold">フォーム</span>
+        </h2>
+        <div class="row g-3">
+          <div class="col-12 col-md-6 col-lg-4" v-for="page in formComponents" :key="page.path">
+            <router-link :to="page.path" class="text-decoration-none">
+              <div class="page-card glass-card p-4 h-100">
+                <div class="d-flex align-items-start gap-3">
+                  <span class="page-icon">{{ page.icon }}</span>
+                  <div>
+                    <h3 class="h6 fw-bold mb-2" style="color: var(--text-primary)">
+                      {{ page.title }}
+                    </h3>
+                    <p class="small mb-0" style="color: var(--text-secondary)">
+                      {{ page.description }}
+                    </p>
+                  </div>
+                </div>
               </div>
-              <div class="activity-content">
-                <div class="activity-title">{{ activity.title }}</div>
-                <div class="activity-time">{{ activity.time }}</div>
-              </div>
-            </div>
+            </router-link>
           </div>
         </div>
-      </div>
+      </section>
+
+      <!-- コンポーネント系 - ナビゲーション -->
+      <section class="mb-5">
+        <h2 class="h3 mb-4 d-flex align-items-center gap-2" style="color: var(--text-primary)">
+          <span
+            class="d-inline-flex align-items-center justify-content-center"
+            style="
+              width: 40px;
+              height: 40px;
+              background: linear-gradient(135deg, #30cfd0, #330867);
+              border-radius: 10px;
+              font-size: 20px;
+            "
+          >
+            🧭
+          </span>
+          <span class="fw-bold">ナビゲーション</span>
+        </h2>
+        <div class="row g-3">
+          <div class="col-12 col-md-6 col-lg-4" v-for="page in navigationComponents" :key="page.path">
+            <router-link :to="page.path" class="text-decoration-none">
+              <div class="page-card glass-card p-4 h-100">
+                <div class="d-flex align-items-start gap-3">
+                  <span class="page-icon">{{ page.icon }}</span>
+                  <div>
+                    <h3 class="h6 fw-bold mb-2" style="color: var(--text-primary)">
+                      {{ page.title }}
+                    </h3>
+                    <p class="small mb-0" style="color: var(--text-secondary)">
+                      {{ page.description }}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </router-link>
+          </div>
+        </div>
+      </section>
+
+      <!-- コンポーネント系 - JavaScript必須 -->
+      <section class="mb-5">
+        <h2 class="h3 mb-4 d-flex align-items-center gap-2" style="color: var(--text-primary)">
+          <span
+            class="d-inline-flex align-items-center justify-content-center"
+            style="
+              width: 40px;
+              height: 40px;
+              background: linear-gradient(135deg, #0ea5e9, #06b6d4);
+              border-radius: 10px;
+              font-size: 20px;
+            "
+          >
+            ⚡
+          </span>
+          <span class="fw-bold">JavaScript機能</span>
+        </h2>
+        <div class="row g-3">
+          <div class="col-12 col-md-6 col-lg-4" v-for="page in jsComponents" :key="page.path">
+            <router-link :to="page.path" class="text-decoration-none">
+              <div class="page-card glass-card p-4 h-100">
+                <div class="d-flex align-items-start gap-3">
+                  <span class="page-icon">{{ page.icon }}</span>
+                  <div>
+                    <h3 class="h6 fw-bold mb-2" style="color: var(--text-primary)">
+                      {{ page.title }}
+                    </h3>
+                    <p class="small mb-0" style="color: var(--text-secondary)">
+                      {{ page.description }}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </router-link>
+          </div>
+        </div>
+      </section>
+
+      <!-- ユーティリティ系 -->
+      <section class="mb-5">
+        <h2 class="h3 mb-4 d-flex align-items-center gap-2" style="color: var(--text-primary)">
+          <span
+            class="d-inline-flex align-items-center justify-content-center"
+            style="
+              width: 40px;
+              height: 40px;
+              background: linear-gradient(135deg, #10b981, #059669);
+              border-radius: 10px;
+              font-size: 20px;
+            "
+          >
+            🎨
+          </span>
+          <span class="fw-bold">ユーティリティ</span>
+        </h2>
+        <div class="row g-3">
+          <div class="col-12 col-md-6 col-lg-4" v-for="page in utilityPages" :key="page.path">
+            <router-link :to="page.path" class="text-decoration-none">
+              <div class="page-card glass-card p-4 h-100">
+                <div class="d-flex align-items-start gap-3">
+                  <span class="page-icon">{{ page.icon }}</span>
+                  <div>
+                    <h3 class="h6 fw-bold mb-2" style="color: var(--text-primary)">
+                      {{ page.title }}
+                    </h3>
+                    <p class="small mb-0" style="color: var(--text-secondary)">
+                      {{ page.description }}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </router-link>
+          </div>
+        </div>
+      </section>
     </div>
+
+    <!-- フッター -->
+    <footer class="glass-card mt-5 py-4" style="border-radius: 24px 24px 0 0">
+      <div class="container text-center">
+        <p class="mb-0" style="color: var(--text-secondary)">
+          Bootstrap 5 学習ページ | Vue 3 + Vite + Bootstrap 5
+        </p>
+      </div>
+    </footer>
   </div>
 </template>
 
 <script setup>
 import { ref } from 'vue'
 
-const stats = ref([
+const layoutPages = ref([
   {
-    id: 1,
-    icon: '👤',
-    value: '2,845',
-    label: 'アクティブユーザー',
-    change: '↑ 12%',
-    changeType: 'positive',
-    color1: '#667eea',
-    color2: '#764ba2'
+    path: '/layout/grid-samples',
+    icon: '📊',
+    title: 'Grid System - サンプル',
+    description: 'Bootstrapグリッドシステムの基本とサンプル集'
   },
   {
-    id: 2,
-    icon: '💰',
-    value: '¥1.2M',
-    label: '月間収益',
-    change: '↑ 8%',
-    changeType: 'positive',
-    color1: '#f093fb',
-    color2: '#f5576c'
+    path: '/layout/grid-builder',
+    icon: '🛠️',
+    title: 'Grid Builder',
+    description: 'GUIでグリッドレイアウトを構築できるツール'
   },
   {
-    id: 3,
+    path: '/layout/containers',
     icon: '📦',
-    value: '156',
-    label: '処理中のタスク',
-    change: '↓ 3%',
-    changeType: 'negative',
-    color1: '#fa709a',
-    color2: '#fee140'
+    title: 'Container & Breakpoints',
+    description: 'コンテナとブレークポイントの使い方'
   },
   {
-    id: 4,
-    icon: '⚡',
-    value: '98.5%',
-    label: 'システム稼働率',
-    change: '↑ 18%',
-    changeType: 'positive',
-    color1: '#30cfd0',
-    color2: '#330867'
+    path: '/layout/flexbox',
+    icon: '↔️',
+    title: 'Flexbox Utilities',
+    description: 'Flexboxユーティリティクラス'
   }
 ])
 
-const activities = ref([
+const basicComponents = ref([
   {
-    id: 1,
-    icon: '✓',
-    title: '新規ユーザー登録',
-    time: '2分前',
-    color1: '#0ea5e9',
-    color2: '#06b6d4'
+    path: '/components/buttons',
+    icon: '🔘',
+    title: 'Buttons',
+    description: 'ボタンのスタイルとバリエーション'
   },
   {
-    id: 2,
-    icon: '📄',
-    title: 'レポート生成完了',
-    time: '15分前',
-    color1: '#8b5cf6',
-    color2: '#a855f7'
+    path: '/components/cards',
+    icon: '🎴',
+    title: 'Cards',
+    description: 'カードコンポーネントの使い方'
   },
   {
-    id: 3,
+    path: '/components/badges',
+    icon: '🏷️',
+    title: 'Badges',
+    description: 'バッジとラベル'
+  },
+  {
+    path: '/components/alerts',
     icon: '⚠️',
-    title: 'システムアラート',
-    time: '1時間前',
-    color1: '#f59e0b',
-    color2: '#f97316'
+    title: 'Alerts',
+    description: 'アラートメッセージ'
   },
   {
-    id: 4,
-    icon: '↻',
-    title: 'データ同期完了',
-    time: '3時間前',
-    color1: '#10b981',
-    color2: '#059669'
+    path: '/components/progress',
+    icon: '📊',
+    title: 'Progress Bars',
+    description: 'プログレスバー'
+  }
+])
+
+const formComponents = ref([
+  {
+    path: '/components/forms',
+    icon: '📝',
+    title: 'Forms',
+    description: '基本的なフォーム要素'
+  },
+  {
+    path: '/components/input-groups',
+    icon: '🔤',
+    title: 'Input Groups',
+    description: '入力グループとアドオン'
+  },
+  {
+    path: '/components/form-validation',
+    icon: '✓',
+    title: 'Form Validation',
+    description: 'フォームバリデーション'
+  }
+])
+
+const navigationComponents = ref([
+  {
+    path: '/components/navbar',
+    icon: '🧭',
+    title: 'Navbar',
+    description: 'ナビゲーションバー'
+  },
+  {
+    path: '/components/breadcrumb',
+    icon: '🍞',
+    title: 'Breadcrumb',
+    description: 'パンくずリスト'
+  },
+  {
+    path: '/components/pagination',
+    icon: '📄',
+    title: 'Pagination',
+    description: 'ページネーション'
+  },
+  {
+    path: '/components/tabs',
+    icon: '📑',
+    title: 'Tabs',
+    description: 'タブナビゲーション'
+  }
+])
+
+const jsComponents = ref([
+  {
+    path: '/components/modal',
+    icon: '🪟',
+    title: 'Modal',
+    description: 'モーダルダイアログ'
+  },
+  {
+    path: '/components/dropdown',
+    icon: '▼',
+    title: 'Dropdown',
+    description: 'ドロップダウンメニュー'
+  },
+  {
+    path: '/components/tooltip',
+    icon: '💬',
+    title: 'Tooltip',
+    description: 'ツールチップ'
+  },
+  {
+    path: '/components/popover',
+    icon: '💭',
+    title: 'Popover',
+    description: 'ポップオーバー'
+  },
+  {
+    path: '/components/collapse',
+    icon: '📁',
+    title: 'Collapse / Accordion',
+    description: 'アコーディオンとコラプス'
+  },
+  {
+    path: '/components/carousel',
+    icon: '🎠',
+    title: 'Carousel',
+    description: 'カルーセル（スライダー）'
+  },
+  {
+    path: '/components/offcanvas',
+    icon: '🗂️',
+    title: 'Offcanvas',
+    description: 'オフキャンバスメニュー'
+  }
+])
+
+const utilityPages = ref([
+  {
+    path: '/utilities/colors',
+    icon: '🎨',
+    title: 'Colors',
+    description: 'カラーユーティリティ'
+  },
+  {
+    path: '/utilities/spacing',
+    icon: '📏',
+    title: 'Spacing',
+    description: 'マージンとパディング'
+  },
+  {
+    path: '/utilities/typography',
+    icon: '🔤',
+    title: 'Typography',
+    description: 'タイポグラフィ'
+  },
+  {
+    path: '/utilities/borders',
+    icon: '⬜',
+    title: 'Borders',
+    description: 'ボーダーと角丸'
+  },
+  {
+    path: '/utilities/shadows',
+    icon: '🌑',
+    title: 'Shadows',
+    description: 'シャドウエフェクト'
   }
 ])
 </script>
 
 <style scoped>
-.btn-group .btn {
-  border-radius: 8px;
-  border: 1px solid var(--border-color);
-  color: var(--text-secondary);
+.page-card {
+  transition: all 0.3s ease;
+  cursor: pointer;
 }
 
-.btn-group .btn.active {
-  background: var(--primary-blue);
-  color: white;
-  border-color: var(--primary-blue);
+.page-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 48px var(--shadow-glow);
 }
 
-.btn-outline-secondary {
-  background: var(--bg-card);
+.page-icon {
+  font-size: 28px;
+  flex-shrink: 0;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
 }
 
-.btn-outline-secondary:hover {
-  background: var(--bg-secondary);
+a {
+  color: inherit;
 }
 </style>
