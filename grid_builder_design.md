@@ -516,9 +516,9 @@
 - ❌ Vue Component形式でのコード生成（HTMLのみ）
 - ❌ Column内のネストされたRow
 
-### 7.3 技術スタック（仕様確定後に詳細決定）
+### 7.3 技術スタック ✅
 
-- **コードハイライト**: 候補 - Prism.js / highlight.js / Shiki
+- **コードハイライト**: highlight.js（確定）
 - **状態管理**: Composition API (reactive/ref)
 - **アニメーション**: Vue Transition / CSS Transition
 - **UI**: Bootstrap 5の標準コンポーネント
@@ -559,31 +559,95 @@
 
 ---
 
-## 9. 次のステップ
+## 9. 技術詳細仕様 ✅
 
-### 9.1 技術選定
-以下の項目について決定が必要:
-- [ ] コードハイライトライブラリの選定
-- [ ] 具体的なコンポーネント構成の設計
-- [ ] 状態管理の詳細設計（データ構造）
+### 9.1 コードハイライトライブラリ
+**選定**: **highlight.js**
 
-### 9.2 データ構造設計
-Grid Builderの状態を表すデータ構造の設計:
+**選定理由**:
+- シンプルで導入が簡単
+- 多言語対応
+- Vueとの統合が容易
+- 適度なファイルサイズ
+
+**導入方法**:
+```bash
+npm install highlight.js
+```
+
+**使用例**:
 ```javascript
-// 例
+import hljs from 'highlight.js'
+import 'highlight.js/styles/github.css' // テーマ選択
+
+// コード要素に適用
+hljs.highlightElement(codeElement)
+```
+
+### 9.2 データ構造設計 ✅
+
+Grid Builderの状態を表すデータ構造（確定）:
+
+```javascript
 {
+  // グリッド全体の設定
+  settings: {
+    containerType: 'container', // 'container' | 'container-fluid' | 'container-{breakpoint}'
+    showGridLines: false,
+    showClassNames: true,
+    currentBreakpoint: 'lg' // 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'xxl'
+  },
+
+  // Row配列
   rows: [
     {
-      id: 1,
-      gutter: 'g-3',
-      alignItems: 'center',
-      justifyContent: 'start',
+      id: 1, // ユニークID
+      gutter: 'g-3', // 'g-0' | 'g-1' | ... | 'g-5'
+      alignItems: 'center', // 'start' | 'center' | 'end'
+      justifyContent: 'start', // 'start' | 'center' | 'end' | 'around' | 'between' | 'evenly'
+
+      // Column配列
       columns: [
         {
-          id: 1,
-          width: { xs: 6, md: 8, lg: 4 },
-          offset: { md: 0, lg: 2 },
-          order: { xs: 0 }
+          id: 1, // ユニークID
+          // カラム幅（各ブレークポイント）
+          width: {
+            xs: 6,    // 1-12 または 'auto'
+            sm: 6,
+            md: 8,
+            lg: 4,
+            xl: 4,
+            xxl: 4
+          },
+          // Offset（左余白）
+          offset: {
+            xs: 0,    // 0-11
+            md: 0,
+            lg: 2
+          },
+          // Order（表示順）
+          order: {
+            xs: 0     // 'first' | 'last' | 0-5
+          }
+        },
+        {
+          id: 2,
+          width: {
+            xs: 6,
+            sm: 6,
+            md: 4,
+            lg: 8,
+            xl: 8,
+            xxl: 8
+          },
+          offset: {
+            xs: 0,
+            md: 0,
+            lg: 0
+          },
+          order: {
+            xs: 0
+          }
         }
       ]
     }
@@ -591,20 +655,370 @@ Grid Builderの状態を表すデータ構造の設計:
 }
 ```
 
-### 9.3 UI詳細設計
-各コンポーネントの詳細な仕様:
-- フォームバリデーション
-- エラーメッセージ
-- ツールチップの内容
-- アクセシビリティ対応
+**データ操作関数（例）**:
+```javascript
+// Row追加
+const addRow = () => {
+  const newRow = {
+    id: Date.now(),
+    gutter: 'g-3',
+    alignItems: 'start',
+    justifyContent: 'start',
+    columns: []
+  }
+  state.rows.push(newRow)
+}
+
+// Column追加
+const addColumn = (rowId) => {
+  const row = state.rows.find(r => r.id === rowId)
+  if (!row) return
+
+  const newColumn = {
+    id: Date.now(),
+    width: { xs: 12, sm: 12, md: 12, lg: 12, xl: 12, xxl: 12 },
+    offset: { xs: 0, md: 0, lg: 0 },
+    order: { xs: 0 }
+  }
+  row.columns.push(newColumn)
+}
+
+// Bootstrapクラス名生成
+const generateColumnClasses = (column) => {
+  const classes = []
+
+  // Width classes
+  Object.entries(column.width).forEach(([breakpoint, size]) => {
+    if (size === 'auto') {
+      classes.push(breakpoint === 'xs' ? 'col-auto' : `col-${breakpoint}-auto`)
+    } else if (size !== 12 || breakpoint === 'xs') {
+      classes.push(breakpoint === 'xs' ? `col-${size}` : `col-${breakpoint}-${size}`)
+    }
+  })
+
+  // Offset classes
+  Object.entries(column.offset).forEach(([breakpoint, size]) => {
+    if (size > 0) {
+      classes.push(breakpoint === 'xs' ? `offset-${size}` : `offset-${breakpoint}-${size}`)
+    }
+  })
+
+  // Order classes
+  Object.entries(column.order).forEach(([breakpoint, order]) => {
+    if (order === 'first' || order === 'last') {
+      classes.push(breakpoint === 'xs' ? `order-${order}` : `order-${breakpoint}-${order}`)
+    } else if (order > 0) {
+      classes.push(breakpoint === 'xs' ? `order-${order}` : `order-${breakpoint}-${order}`)
+    }
+  })
+
+  return classes.join(' ')
+}
+```
+
+### 9.3 コンポーネント構成
+
+```
+GridBuilder.vue (メインコンポーネント)
+├── SettingsSection.vue (設定セクション)
+│   ├── RowManagementTab.vue (Tab 1: Row管理)
+│   │   └── RowListItem.vue (Row一覧アイテム)
+│   ├── ColumnManagementTab.vue (Tab 2: Column管理)
+│   │   └── ColumnSettingsForm.vue (Column設定フォーム)
+│   └── AdvancedSettingsTab.vue (Tab 3: 詳細設定)
+│       └── PresetSelector.vue (プリセット選択)
+├── PreviewSection.vue (プレビューセクション)
+│   ├── BreakpointSwitcher.vue (ブレークポイント切り替え)
+│   ├── GridPreview.vue (グリッドプレビュー)
+│   │   ├── PreviewRow.vue (Row表示)
+│   │   └── PreviewColumn.vue (Column表示)
+│   └── CodeViewer.vue (コード表示)
+│       └── CodeBlock.vue (コードブロック + highlight.js)
+├── RowSettingsModal.vue (Row設定モーダル)
+└── ColumnSettingsModal.vue (Column設定モーダル)
+```
+
+### 9.4 UI詳細設計
+
+#### エラーハンドリング
+- Rowが0個の場合: 「Rowを追加してください」メッセージ表示
+- Columnが0個の場合: プレビューに「このRowにはColumnがありません」表示
+- カラム幅の合計が12を超える場合: 警告表示（実装は許可）
+
+#### ツールチップ内容（例）
+- **Gutter**: 「Row内のColumn間の余白を設定します。g-0（なし）からg-5（特大）まで選択できます。」
+- **Vertical Align**: 「Row内のColumnの垂直方向の配置を設定します。」
+- **Justify Content**: 「Row内のColumnの水平方向の配置を設定します。」
+- **Offset**: 「Columnの左側に空白を追加します。」
+- **Order**: 「Columnの表示順を変更します。」
+
+#### アクセシビリティ
+- すべてのボタンに適切なaria-label
+- モーダルにaria-modal="true"
+- フォーカス管理（モーダル開閉時）
+- キーボード操作対応（Tab, Enter, Escキー）
+
+### 9.5 LocalStorage保存項目
+
+```javascript
+// 保存する項目
+{
+  settingsSectionCollapsed: false, // 設定セクションの折りたたみ状態
+  lastUsedPreset: 'custom',        // 最後に使用したプリセット
+  gridState: { ... }                // グリッドの状態（オプション、将来実装）
+}
+```
 
 ---
 
-## 補足: レスポンシブ対応
+## 10. レスポンシブ対応
 
-設定セクション自体もレスポンシブに対応:
-- **デスクトップ**: 上記のレイアウト
-- **タブレット**: 設定UIをやや縮小
-- **モバイル**: 設定はモーダル化、プレビューを優先表示
+Grid Builder自体のレスポンシブ対応:
 
-この点についても必要に応じて詳細を詰めます。
+### デスクトップ（≥992px）
+- 設定セクション: フル表示、タブ形式
+- プレビューセクション: フル幅
+- コード表示: 折りたたみ式、横幅いっぱい
+
+### タブレット（768px - 991px）
+- 設定セクション: やや縮小、タブ形式維持
+- プレビューセクション: フル幅
+- フォント・ボタンサイズをやや縮小
+
+### モバイル（< 768px）
+- 設定セクション: デフォルトで折りたたみ
+- タブは下部に固定、モーダル形式で表示
+- プレビューセクション: 優先表示、フル幅
+- ブレークポイントボタン: アイコンのみ表示
+
+---
+
+## 11. 仕様完成 - 実装準備完了 🎉
+
+### 確定した仕様サマリー
+
+#### UI設計
+- ✅ タブ形式の設定セクション（3タブ）
+- ✅ 折りたたみ可能な設定セクション
+- ✅ リアルタイムプレビュー
+- ✅ 折りたたみ式コード表示
+
+#### 機能設計
+- ✅ Row/Column管理（追加・削除・並び替え）
+- ✅ レスポンシブブレークポイント制御（6段階）
+- ✅ Gutter、Alignment設定
+- ✅ Offset、Order設定
+- ✅ 8種類のプリセット
+- ✅ HTMLコード生成とコピー
+- ✅ グリッド線表示（オプション）
+
+#### 技術選定
+- ✅ コードハイライト: highlight.js
+- ✅ 状態管理: Vue Composition API
+- ✅ UI: Bootstrap 5
+- ✅ データ構造: 確定済み
+
+#### 実装スコープ
+- ✅ MVP機能リスト明確化
+- ✅ 将来実装機能の明確化
+- ✅ 5フェーズの実装計画
+
+### 次のアクション
+
+実装を開始する際は、以下の順序で進めることを推奨：
+
+1. **プロジェクトセットアップ**
+   - Vueプロジェクト作成
+   - Bootstrap 5インストール
+   - highlight.jsインストール
+
+2. **Phase 1実装開始**
+   - 基本UI構造
+   - Row/Column追加・削除
+   - 基本プレビュー
+
+3. **段階的な機能追加**
+   - Phase 2-5に従って実装
+
+### ドキュメント管理
+
+このドキュメント（grid_builder_design.md）は以下の役割を果たします：
+- ✅ 設計の決定事項記録
+- ✅ 実装時の参照仕様書
+- ✅ チーム間の仕様共有（該当する場合）
+- ✅ 将来の機能追加時の参照
+
+---
+
+## 付録: プリセット詳細定義
+
+### Preset 1: 2カラム（50:50）
+```javascript
+{
+  rows: [
+    {
+      id: 1,
+      gutter: 'g-3',
+      alignItems: 'start',
+      justifyContent: 'start',
+      columns: [
+        { id: 1, width: { xs: 12, md: 6 }, offset: {}, order: {} },
+        { id: 2, width: { xs: 12, md: 6 }, offset: {}, order: {} }
+      ]
+    }
+  ]
+}
+```
+
+### Preset 2: 2カラム（66:33）
+```javascript
+{
+  rows: [
+    {
+      id: 1,
+      gutter: 'g-3',
+      alignItems: 'start',
+      justifyContent: 'start',
+      columns: [
+        { id: 1, width: { xs: 12, md: 8 }, offset: {}, order: {} },
+        { id: 2, width: { xs: 12, md: 4 }, offset: {}, order: {} }
+      ]
+    }
+  ]
+}
+```
+
+### Preset 3: 3カラム（均等）
+```javascript
+{
+  rows: [
+    {
+      id: 1,
+      gutter: 'g-3',
+      alignItems: 'start',
+      justifyContent: 'start',
+      columns: [
+        { id: 1, width: { xs: 12, md: 4 }, offset: {}, order: {} },
+        { id: 2, width: { xs: 12, md: 4 }, offset: {}, order: {} },
+        { id: 3, width: { xs: 12, md: 4 }, offset: {}, order: {} }
+      ]
+    }
+  ]
+}
+```
+
+### Preset 4: サイドバー（左）
+```javascript
+{
+  rows: [
+    {
+      id: 1,
+      gutter: 'g-4',
+      alignItems: 'start',
+      justifyContent: 'start',
+      columns: [
+        { id: 1, width: { xs: 12, md: 3 }, offset: {}, order: {} },
+        { id: 2, width: { xs: 12, md: 9 }, offset: {}, order: {} }
+      ]
+    }
+  ]
+}
+```
+
+### Preset 5: サイドバー（右）
+```javascript
+{
+  rows: [
+    {
+      id: 1,
+      gutter: 'g-4',
+      alignItems: 'start',
+      justifyContent: 'start',
+      columns: [
+        { id: 1, width: { xs: 12, md: 9 }, offset: {}, order: {} },
+        { id: 2, width: { xs: 12, md: 3 }, offset: {}, order: {} }
+      ]
+    }
+  ]
+}
+```
+
+### Preset 6: ヘッダー・コンテンツ・フッター
+```javascript
+{
+  rows: [
+    {
+      id: 1,
+      gutter: 'g-0',
+      alignItems: 'start',
+      justifyContent: 'start',
+      columns: [
+        { id: 1, width: { xs: 12 }, offset: {}, order: {} }
+      ]
+    },
+    {
+      id: 2,
+      gutter: 'g-3',
+      alignItems: 'start',
+      justifyContent: 'start',
+      columns: [
+        { id: 2, width: { xs: 12 }, offset: {}, order: {} }
+      ]
+    },
+    {
+      id: 3,
+      gutter: 'g-0',
+      alignItems: 'start',
+      justifyContent: 'start',
+      columns: [
+        { id: 3, width: { xs: 12 }, offset: {}, order: {} }
+      ]
+    }
+  ]
+}
+```
+
+### Preset 7: カードグリッド（4列）
+```javascript
+{
+  rows: [
+    {
+      id: 1,
+      gutter: 'g-3',
+      alignItems: 'start',
+      justifyContent: 'start',
+      columns: [
+        { id: 1, width: { xs: 12, sm: 6, lg: 3 }, offset: {}, order: {} },
+        { id: 2, width: { xs: 12, sm: 6, lg: 3 }, offset: {}, order: {} },
+        { id: 3, width: { xs: 12, sm: 6, lg: 3 }, offset: {}, order: {} },
+        { id: 4, width: { xs: 12, sm: 6, lg: 3 }, offset: {}, order: {} }
+      ]
+    }
+  ]
+}
+```
+
+### Preset 8: レスポンシブ3→2→1
+```javascript
+{
+  rows: [
+    {
+      id: 1,
+      gutter: 'g-3',
+      alignItems: 'start',
+      justifyContent: 'start',
+      columns: [
+        { id: 1, width: { xs: 12, md: 6, lg: 4 }, offset: {}, order: {} },
+        { id: 2, width: { xs: 12, md: 6, lg: 4 }, offset: {}, order: {} },
+        { id: 3, width: { xs: 12, md: 6, lg: 4 }, offset: {}, order: {} }
+      ]
+    }
+  ]
+}
+```
+
+---
+
+**ドキュメントバージョン**: 1.0 Final
+**最終更新日**: 2025-12-16
+**ステータス**: 実装準備完了 ✅
