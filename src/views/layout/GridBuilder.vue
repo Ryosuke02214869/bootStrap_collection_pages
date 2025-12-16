@@ -25,7 +25,7 @@
       </div>
     </header>
 
-    <div class="container-fluid pb-4">
+    <div class="container pb-4">
       <!-- 設定セクション（折りたたみ可能） -->
       <section class="glass-card mb-3">
         <div class="p-3">
