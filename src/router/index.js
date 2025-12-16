@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home.vue'
 import GridSamples from '../views/layout/GridSamples.vue'
+import GridBuilder from '../views/layout/GridBuilder.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -14,6 +15,11 @@ const router = createRouter({
       path: '/layout/grid-samples',
       name: 'grid-samples',
       component: GridSamples
+    },
+    {
+      path: '/layout/grid-builder',
+      name: 'grid-builder',
+      component: GridBuilder
     }
   ]
 })
