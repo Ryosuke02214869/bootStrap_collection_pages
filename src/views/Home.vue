@@ -263,8 +263,11 @@
     <!-- フッター -->
     <footer class="glass-card mt-5 py-4" style="border-radius: 24px 24px 0 0">
       <div class="container text-center">
-        <p class="mb-0" style="color: var(--text-secondary)">
+        <p class="mb-2" style="color: var(--text-secondary)">
           Bootstrap 5 学習ページ | Vue 3 + Vite + Bootstrap 5
+        </p>
+        <p class="mb-0 small" style="color: var(--text-secondary); opacity: 0.8">
+          &copy; 2025 Bootstrap Learning Pages. All rights reserved.
         </p>
       </div>
     </footer>
