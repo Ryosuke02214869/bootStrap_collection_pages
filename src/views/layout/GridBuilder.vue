@@ -87,6 +87,7 @@
                 @move-row-down="moveRowDown"
                 @add-column="addColumn"
                 @delete-column="deleteColumn"
+                @update-column="updateColumn"
               />
             </div>
 
