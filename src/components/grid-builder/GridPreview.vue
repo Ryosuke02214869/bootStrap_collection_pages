@@ -161,7 +161,7 @@ const getColumnClasses = (column) => {
 }
 
 .preview-col {
-  background: linear-gradient(135deg, var(--primary-blue), var(--accent-cyan));
+  background: linear-gradient(135deg, #22c55e, #16a34a);
   border-radius: 8px;
   padding: 16px;
   min-height: 80px;

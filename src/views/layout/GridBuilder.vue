@@ -57,6 +57,15 @@
             </li>
             <li class="nav-item" role="presentation">
               <button
+                :class="['nav-link', { active: activeTab === 'columns' }]"
+                @click="activeTab = 'columns'"
+                type="button"
+              >
+                Column管理
+              </button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button
                 :class="['nav-link', { active: activeTab === 'presets' }]"
                 @click="activeTab = 'presets'"
                 type="button"
@@ -78,6 +87,15 @@
                 @move-row-down="moveRowDown"
                 @add-column="addColumn"
                 @delete-column="deleteColumn"
+              />
+            </div>
+
+            <!-- Column管理タブ -->
+            <div v-if="activeTab === 'columns'" class="tab-pane active">
+              <ColumnManagementTab
+                :rows="state.rows"
+                :generate-column-classes="generateColumnClasses"
+                @update-column="updateColumn"
               />
             </div>
 
@@ -147,6 +165,7 @@
 import { ref } from 'vue'
 import { useGridBuilder } from '../../composables/useGridBuilder'
 import RowManagementTab from '../../components/grid-builder/RowManagementTab.vue'
+import ColumnManagementTab from '../../components/grid-builder/ColumnManagementTab.vue'
 import GridPreview from '../../components/grid-builder/GridPreview.vue'
 import CodeViewer from '../../components/grid-builder/CodeViewer.vue'
 
@@ -159,6 +178,7 @@ const {
   moveRowDown,
   addColumn,
   deleteColumn,
+  updateColumn,
   generateColumnClasses,
   generateRowClasses,
   generateHTMLCode,

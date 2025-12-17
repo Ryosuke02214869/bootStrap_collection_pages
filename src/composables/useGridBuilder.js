@@ -98,6 +98,19 @@ export function useGridBuilder() {
     }
   }
 
+  const updateColumn = ({ rowId, columnId, columnData }) => {
+    const row = state.value.rows.find((r) => r.id === rowId)
+    if (!row) return
+
+    const column = row.columns.find((c) => c.id === columnId)
+    if (!column) return
+
+    // Update column properties
+    column.width = { ...columnData.width }
+    column.offset = { ...columnData.offset }
+    column.order = { ...columnData.order }
+  }
+
   // Bootstrapクラス名生成
   const generateColumnClasses = (column) => {
     const classes = []
@@ -343,6 +356,7 @@ export function useGridBuilder() {
     moveRowDown,
     addColumn,
     deleteColumn,
+    updateColumn,
     generateColumnClasses,
     generateRowClasses,
     generateHTMLCode,
