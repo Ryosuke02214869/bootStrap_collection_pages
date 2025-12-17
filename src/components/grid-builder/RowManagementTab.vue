@@ -88,7 +88,7 @@
                   >
                     {{ formatColumnWidth(column) }}
                   </span>
-                  <div class="d-flex align-items-center gap-1 ms-2">
+                  <div class="d-flex align-items-center gap-1 ms-auto me-4">
                     <label class="small mb-0" style="font-size: 0.75rem; color: var(--text-secondary); white-space: nowrap">
                       一括:
                     </label>
