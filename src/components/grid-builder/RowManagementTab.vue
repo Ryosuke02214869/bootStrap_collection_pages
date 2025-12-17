@@ -59,26 +59,52 @@
           >
             <!-- Column ヘッダー -->
             <div
-              @click="toggleColumnExpand(row.id, column.id)"
               class="column-item-header"
               style="
                 background: var(--bg-secondary);
                 padding: 8px 12px;
                 border-radius: 6px;
                 font-size: 0.875rem;
-                cursor: pointer;
-                user-select: none;
               "
             >
-              <div class="d-flex justify-content-between align-items-center">
-                <div class="d-flex align-items-center gap-2">
-                  <span>{{ isColumnExpanded(row.id, column.id) ? '▼' : '▶' }}</span>
-                  <span style="color: var(--text-primary); font-weight: 500">
+              <div class="d-flex justify-content-between align-items-center gap-2">
+                <div class="d-flex align-items-center gap-2 flex-grow-1">
+                  <span
+                    @click="toggleColumnExpand(row.id, column.id)"
+                    style="cursor: pointer; user-select: none"
+                  >
+                    {{ isColumnExpanded(row.id, column.id) ? '▼' : '▶' }}
+                  </span>
+                  <span
+                    @click="toggleColumnExpand(row.id, column.id)"
+                    style="color: var(--text-primary); font-weight: 500; cursor: pointer; user-select: none"
+                  >
                     Col {{ colIndex + 1 }}
                   </span>
-                  <span class="small" style="color: var(--text-secondary)">
+                  <span
+                    @click="toggleColumnExpand(row.id, column.id)"
+                    class="small"
+                    style="color: var(--text-secondary); cursor: pointer; user-select: none"
+                  >
                     {{ formatColumnWidth(column) }}
                   </span>
+                  <div class="d-flex align-items-center gap-1 ms-2">
+                    <label class="small mb-0" style="font-size: 0.75rem; color: var(--text-secondary); white-space: nowrap">
+                      一括:
+                    </label>
+                    <input
+                      type="number"
+                      :value="getMostCommonWidth(column)"
+                      @input="updateAllBreakpoints(row.id, column.id, $event.target.value)"
+                      @click.stop
+                      min="1"
+                      max="12"
+                      class="form-control form-control-sm"
+                      style="width: 60px; padding: 2px 6px; font-size: 0.875rem"
+                      placeholder="col"
+                      title="全ブレークポイントを一括変更"
+                    />
+                  </div>
                 </div>
                 <button
                   @click.stop="$emit('delete-column', row.id, column.id)"
@@ -192,6 +218,54 @@ const updateColumnWidth = (rowId, columnId, breakpoint, value) => {
     width: {
       ...column.width,
       [breakpoint]: numValue
+    }
+  }
+
+  emit('update-column', {
+    rowId,
+    columnId,
+    columnData: updatedColumn
+  })
+}
+
+const getMostCommonWidth = (column) => {
+  // 全ブレークポイントの幅の値を取得
+  const widths = Object.values(column.width).filter(w => typeof w === 'number')
+  if (widths.length === 0) return 12
+
+  // 最も頻出する値を見つける
+  const counts = {}
+  widths.forEach(w => {
+    counts[w] = (counts[w] || 0) + 1
+  })
+
+  // 最も出現回数が多い値を返す
+  return parseInt(Object.keys(counts).reduce((a, b) => counts[a] >= counts[b] ? a : b))
+}
+
+const updateAllBreakpoints = (rowId, columnId, value) => {
+  const row = props.rows.find((r) => r.id === rowId)
+  if (!row) return
+
+  const column = row.columns.find((c) => c.id === columnId)
+  if (!column) return
+
+  // 空文字の場合は12、数値の場合はそのまま
+  const numValue = value === '' ? 12 : parseInt(value)
+
+  // 1-12の範囲チェック
+  if (numValue < 1 || numValue > 12) return
+
+  // 全ブレークポイントを一括更新
+  const updatedColumn = {
+    ...column,
+    width: {
+      xs: numValue,
+      sm: numValue,
+      md: numValue,
+      lg: numValue,
+      xl: numValue,
+      xxl: numValue
     }
   }
 

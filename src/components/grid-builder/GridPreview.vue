@@ -116,12 +116,12 @@ const showGridLines = ref(false)
 const showClassNames = ref(true)
 
 const breakpoints = [
-  { value: 'xs', label: 'Mobile', icon: '📱', description: '< 576px' },
-  { value: 'sm', label: 'Tablet', icon: '📱', description: '≥ 576px' },
-  { value: 'md', label: 'Tablet', icon: '💻', description: '≥ 768px' },
-  { value: 'lg', label: 'Desktop', icon: '💻', description: '≥ 992px' },
-  { value: 'xl', label: 'Desktop', icon: '🖥️', description: '≥ 1200px' },
-  { value: 'xxl', label: 'Wide', icon: '🖥️', description: '≥ 1400px' }
+  { value: 'xs', label: 'Mobile (xs)', icon: '📱', description: '< 576px' },
+  { value: 'sm', label: 'Tablet (sm)', icon: '📱', description: '≥ 576px' },
+  { value: 'md', label: 'Tablet (md)', icon: '💻', description: '≥ 768px' },
+  { value: 'lg', label: 'Desktop (lg)', icon: '💻', description: '≥ 992px' },
+  { value: 'xl', label: 'Desktop (xl)', icon: '🖥️', description: '≥ 1200px' },
+  { value: 'xxl', label: 'Wide (xxl)', icon: '🖥️', description: '≥ 1400px' }
 ]
 
 const getRowClasses = (row) => {
