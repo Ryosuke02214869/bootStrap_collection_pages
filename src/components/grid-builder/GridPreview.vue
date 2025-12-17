@@ -145,15 +145,15 @@ const getColumnClasses = (column) => {
 .grid-lines {
   background-image: repeating-linear-gradient(
       90deg,
-      rgba(14, 165, 233, 0.1) 0,
-      rgba(14, 165, 233, 0.1) 1px,
+      rgba(34, 197, 94, 0.25) 0,
+      rgba(34, 197, 94, 0.25) 1px,
       transparent 1px,
       transparent calc(100% / 12)
     ),
     repeating-linear-gradient(
       0deg,
-      rgba(14, 165, 233, 0.1) 0,
-      rgba(14, 165, 233, 0.1) 1px,
+      rgba(34, 197, 94, 0.25) 0,
+      rgba(34, 197, 94, 0.25) 1px,
       transparent 1px,
       transparent 40px
     );
@@ -161,7 +161,7 @@ const getColumnClasses = (column) => {
 }
 
 .preview-col {
-  background: linear-gradient(135deg, #22c55e, #16a34a);
+  background: linear-gradient(135deg, var(--primary-blue), var(--accent-cyan));
   border-radius: 8px;
   padding: 16px;
   min-height: 80px;
