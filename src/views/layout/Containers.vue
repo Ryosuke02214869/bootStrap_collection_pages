@@ -71,6 +71,7 @@
         </h2>
         <p style="color: var(--text-secondary)" class="mb-4">
           Bootstrapには3種類のコンテナがあります。それぞれの特徴と使い分けを理解しましょう。
+          <strong>グレーの背景が画面全体の範囲です。</strong>
         </p>
 
         <!-- .container -->
@@ -79,11 +80,14 @@
             <code>.container</code> - レスポンシブな固定幅
           </h3>
           <p class="small mb-3" style="color: var(--text-secondary)">
-            各ブレークポイントで最大幅が設定されます。中央揃えで表示され、左右に余白が生まれます。
+            各ブレークポイントで最大幅が設定されます。中央揃えで表示され、<strong>左右に余白</strong>が生まれます。
           </p>
-          <div class="demo-area">
-            <div class="container demo-container">
-              <div class="demo-content">.container</div>
+        </div>
+        <div class="demo-wrapper mb-4">
+          <div class="container demo-container-fixed">
+            <div class="demo-content">
+              <div class="demo-label">.container</div>
+              <div class="demo-width-info">固定幅 + 左右余白あり</div>
             </div>
           </div>
         </div>
@@ -94,11 +98,14 @@
             <code>.container-fluid</code> - 全幅
           </h3>
           <p class="small mb-3" style="color: var(--text-secondary)">
-            画面の幅いっぱいに広がります。左右の余白は最小限（パディングのみ）です。
+            画面の幅いっぱいに広がります。<strong>左右の余白は最小限</strong>（パディングのみ）です。
           </p>
-          <div class="demo-area">
-            <div class="container-fluid demo-container">
-              <div class="demo-content">.container-fluid</div>
+        </div>
+        <div class="demo-wrapper mb-4">
+          <div class="container-fluid demo-container-fluid">
+            <div class="demo-content">
+              <div class="demo-label">.container-fluid</div>
+              <div class="demo-width-info">画面幅100% + 余白なし</div>
             </div>
           </div>
         </div>
@@ -111,9 +118,12 @@
           <p class="small mb-3" style="color: var(--text-secondary)">
             指定したブレークポイント（この例ではmd: 768px）までは全幅、それ以降は固定幅になります。
           </p>
-          <div class="demo-area">
-            <div class="container-md demo-container">
-              <div class="demo-content">.container-md</div>
+        </div>
+        <div class="demo-wrapper mb-4">
+          <div class="container-md demo-container-breakpoint">
+            <div class="demo-content">
+              <div class="demo-label">.container-md</div>
+              <div class="demo-width-info">md未満: 全幅 / md以上: 固定幅</div>
             </div>
           </div>
         </div>
@@ -466,31 +476,97 @@ onMounted(() => {
 </script>
 
 <style scoped>
-/* デモエリア */
-.demo-area {
-  background: #f8f9fa;
-  padding: 20px;
+/* デモラッパー - 画面全体の範囲を示す */
+.demo-wrapper {
+  background: linear-gradient(135deg, #e5e7eb 0%, #d1d5db 100%);
+  padding: 30px 0;
   border-radius: 12px;
-  border: 2px dashed var(--border-color);
-  overflow-x: auto;
+  position: relative;
+  overflow: visible;
+  border: 2px solid #9ca3af;
 }
 
-.demo-container {
-  background: rgba(14, 165, 233, 0.1);
-  border: 2px solid var(--primary-blue);
+.demo-wrapper::before {
+  content: '← 画面全体の範囲 →';
+  position: absolute;
+  top: 5px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 11px;
+  color: #6b7280;
+  font-weight: 600;
+  background: white;
+  padding: 2px 12px;
+  border-radius: 12px;
+  border: 1px solid #9ca3af;
+}
+
+/* .container デモ */
+.demo-container-fixed {
+  background: rgba(14, 165, 233, 0.15);
+  border: 3px solid var(--primary-blue);
   border-radius: 8px;
-  padding: 20px;
+  position: relative;
+}
+
+.demo-container-fixed::before,
+.demo-container-fixed::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 20px;
+  background: repeating-linear-gradient(
+    -45deg,
+    transparent,
+    transparent 5px,
+    rgba(239, 68, 68, 0.3) 5px,
+    rgba(239, 68, 68, 0.3) 10px
+  );
+  border: 2px dashed #ef4444;
+}
+
+.demo-container-fixed::before {
+  left: -23px;
+}
+
+.demo-container-fixed::after {
+  right: -23px;
+}
+
+/* .container-fluid デモ */
+.demo-container-fluid {
+  background: rgba(34, 197, 94, 0.15);
+  border: 3px solid #22c55e;
+  border-radius: 8px;
+  position: relative;
+}
+
+/* .container-md デモ */
+.demo-container-breakpoint {
+  background: rgba(168, 85, 247, 0.15);
+  border: 3px solid #a855f7;
+  border-radius: 8px;
   position: relative;
 }
 
 .demo-content {
-  background: linear-gradient(135deg, var(--primary-blue), var(--accent-cyan));
-  color: white;
-  padding: 30px;
-  border-radius: 8px;
+  padding: 40px 20px;
   text-align: center;
-  font-weight: 600;
-  font-size: 1.1rem;
+}
+
+.demo-label {
+  font-weight: 700;
+  font-size: 1.3rem;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+  font-family: 'Consolas', 'Monaco', monospace;
+}
+
+.demo-width-info {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  font-weight: 500;
 }
 
 /* プレビューボックス */
