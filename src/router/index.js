@@ -14,8 +14,20 @@ import Dropdown from '../views/components/Dropdown.vue'
 import Tabs from '../views/components/Tabs.vue'
 import Collapse from '../views/components/Collapse.vue'
 import FormValidation from '../views/components/FormValidation.vue'
+import Badges from '../views/components/Badges.vue'
+import ProgressBars from '../views/components/ProgressBars.vue'
+import InputGroups from '../views/components/InputGroups.vue'
+import Breadcrumb from '../views/components/Breadcrumb.vue'
+import Pagination from '../views/components/Pagination.vue'
+import Tooltip from '../views/components/Tooltip.vue'
+import Popover from '../views/components/Popover.vue'
+import Carousel from '../views/components/Carousel.vue'
+import Offcanvas from '../views/components/Offcanvas.vue'
 import Colors from '../views/utilities/Colors.vue'
 import Spacing from '../views/utilities/Spacing.vue'
+import Typography from '../views/utilities/Typography.vue'
+import Borders from '../views/utilities/Borders.vue'
+import Shadows from '../views/utilities/Shadows.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -97,6 +109,51 @@ const router = createRouter({
       name: 'form-validation',
       component: FormValidation
     },
+    {
+      path: '/components/badges',
+      name: 'badges',
+      component: Badges
+    },
+    {
+      path: '/components/progress',
+      name: 'progress',
+      component: ProgressBars
+    },
+    {
+      path: '/components/input-groups',
+      name: 'input-groups',
+      component: InputGroups
+    },
+    {
+      path: '/components/breadcrumb',
+      name: 'breadcrumb',
+      component: Breadcrumb
+    },
+    {
+      path: '/components/pagination',
+      name: 'pagination',
+      component: Pagination
+    },
+    {
+      path: '/components/tooltip',
+      name: 'tooltip',
+      component: Tooltip
+    },
+    {
+      path: '/components/popover',
+      name: 'popover',
+      component: Popover
+    },
+    {
+      path: '/components/carousel',
+      name: 'carousel',
+      component: Carousel
+    },
+    {
+      path: '/components/offcanvas',
+      name: 'offcanvas',
+      component: Offcanvas
+    },
     // Utility pages
     {
       path: '/utilities/colors',
@@ -107,6 +164,21 @@ const router = createRouter({
       path: '/utilities/spacing',
       name: 'spacing',
       component: Spacing
+    },
+    {
+      path: '/utilities/typography',
+      name: 'typography',
+      component: Typography
+    },
+    {
+      path: '/utilities/borders',
+      name: 'borders',
+      component: Borders
+    },
+    {
+      path: '/utilities/shadows',
+      name: 'shadows',
+      component: Shadows
     }
   ]
 })
