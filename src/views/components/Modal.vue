@@ -45,36 +45,6 @@
           >
             モーダルを開く
           </button>
-
-          <!-- Modal -->
-          <div
-            class="modal fade"
-            id="exampleModal"
-            tabindex="-1"
-            aria-labelledby="exampleModalLabel"
-            aria-hidden="true"
-          >
-            <div class="modal-dialog">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLabel">モーダルタイトル</h5>
-                  <button
-                    type="button"
-                    class="btn-close"
-                    data-bs-dismiss="modal"
-                    aria-label="Close"
-                  ></button>
-                </div>
-                <div class="modal-body">これはモーダルのコンテンツです。</div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                    閉じる
-                  </button>
-                  <button type="button" class="btn btn-primary">保存</button>
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
 
         <!-- コード -->
@@ -145,45 +115,6 @@
               Extra Large Modal
             </button>
           </div>
-
-          <!-- Small Modal -->
-          <div class="modal fade" id="modalSm" tabindex="-1">
-            <div class="modal-dialog modal-sm">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title">Small Modal</h5>
-                  <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">これは小さいモーダルです。</div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Large Modal -->
-          <div class="modal fade" id="modalLg" tabindex="-1">
-            <div class="modal-dialog modal-lg">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title">Large Modal</h5>
-                  <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">これは大きいモーダルです。</div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Extra Large Modal -->
-          <div class="modal fade" id="modalXl" tabindex="-1">
-            <div class="modal-dialog modal-xl">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title">Extra Large Modal</h5>
-                  <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">これは特大のモーダルです。</div>
-              </div>
-            </div>
-          </div>
         </div>
 
         <!-- コード -->
@@ -218,18 +149,6 @@
           >
             中央配置モーダル
           </button>
-
-          <div class="modal fade" id="modalCentered" tabindex="-1">
-            <div class="modal-dialog modal-dialog-centered">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title">中央配置</h5>
-                  <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">このモーダルは垂直方向の中央に配置されます。</div>
-              </div>
-            </div>
-          </div>
         </div>
 
         <!-- コード -->
@@ -328,6 +247,91 @@ const isModalOpen = ref(false)
       </section>
     </div>
   </div>
+
+  <!-- Modals (Teleport to body for proper z-index and backdrop) -->
+  <Teleport to="body">
+    <!-- Basic Modal -->
+    <div
+      class="modal fade"
+      id="exampleModal"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">モーダルタイトル</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">これはモーダルのコンテンツです。</div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+              閉じる
+            </button>
+            <button type="button" class="btn btn-primary">保存</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Small Modal -->
+    <div class="modal fade" id="modalSm" tabindex="-1">
+      <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Small Modal</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+          <div class="modal-body">これは小さいモーダルです。</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Large Modal -->
+    <div class="modal fade" id="modalLg" tabindex="-1">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Large Modal</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+          <div class="modal-body">これは大きいモーダルです。</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Extra Large Modal -->
+    <div class="modal fade" id="modalXl" tabindex="-1">
+      <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Extra Large Modal</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+          <div class="modal-body">これは特大のモーダルです。</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Centered Modal -->
+    <div class="modal fade" id="modalCentered" tabindex="-1">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">中央配置</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+          <div class="modal-body">このモーダルは垂直方向の中央に配置されます。</div>
+        </div>
+      </div>
+    </div>
+  </Teleport>
 </template>
 
 <script setup>
