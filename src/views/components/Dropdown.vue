@@ -458,13 +458,15 @@
 </template>
 
 <script setup>
-import { onMounted } from 'vue'
+import { onMounted, onBeforeUnmount } from 'vue'
 import hljs from 'highlight.js/lib/core'
 import html from 'highlight.js/lib/languages/xml'
 import 'highlight.js/styles/github.css'
 import { Dropdown } from 'bootstrap'
 
 hljs.registerLanguage('html', html)
+
+let dropdownInstances = []
 
 onMounted(() => {
   // シンタックスハイライトの初期化
@@ -474,9 +476,25 @@ onMounted(() => {
 
   // Bootstrap Dropdownの明示的な初期化
   document.querySelectorAll('[data-bs-toggle="dropdown"]').forEach((dropdownToggle) => {
-    new Dropdown(dropdownToggle)
+    // 既存のインスタンスを取得または作成
+    let instance = Dropdown.getInstance(dropdownToggle)
+    if (!instance) {
+      instance = new Dropdown(dropdownToggle)
+      dropdownInstances.push(instance)
+    }
   })
 })
+
+onBeforeUnmount(() => {
+  // インスタンスのクリーンアップ
+  dropdownInstances.forEach(instance => {
+    if (instance) {
+      instance.dispose()
+    }
+  })
+  dropdownInstances = []
+})
+
 </script>
 
 <style scoped>
