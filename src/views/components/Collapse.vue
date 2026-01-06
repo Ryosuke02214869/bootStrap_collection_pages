@@ -435,13 +435,15 @@
 </template>
 
 <script setup>
-import { onMounted } from 'vue'
+import { onMounted, onBeforeUnmount } from 'vue'
 import hljs from 'highlight.js/lib/core'
 import html from 'highlight.js/lib/languages/xml'
 import 'highlight.js/styles/github.css'
 import { Collapse } from 'bootstrap'
 
 hljs.registerLanguage('html', html)
+
+let collapseInstances = []
 
 onMounted(() => {
   // シンタックスハイライトの初期化
@@ -451,11 +453,27 @@ onMounted(() => {
 
   // Bootstrap Collapseの明示的な初期化
   document.querySelectorAll('.collapse').forEach((collapseEl) => {
-    new Collapse(collapseEl, {
-      toggle: false
-    })
+    // 既存のインスタンスを取得または作成
+    let instance = Collapse.getInstance(collapseEl)
+    if (!instance) {
+      instance = new Collapse(collapseEl, {
+        toggle: false
+      })
+      collapseInstances.push(instance)
+    }
   })
 })
+
+onBeforeUnmount(() => {
+  // インスタンスのクリーンアップ
+  collapseInstances.forEach(instance => {
+    if (instance) {
+      instance.dispose()
+    }
+  })
+  collapseInstances = []
+})
+
 </script>
 
 <style scoped>
