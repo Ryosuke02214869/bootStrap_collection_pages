@@ -439,12 +439,21 @@ import { onMounted } from 'vue'
 import hljs from 'highlight.js/lib/core'
 import html from 'highlight.js/lib/languages/xml'
 import 'highlight.js/styles/github.css'
+import { Collapse } from 'bootstrap'
 
 hljs.registerLanguage('html', html)
 
 onMounted(() => {
+  // シンタックスハイライトの初期化
   document.querySelectorAll('pre code').forEach((block) => {
     hljs.highlightElement(block)
+  })
+
+  // Bootstrap Collapseの明示的な初期化
+  document.querySelectorAll('.collapse').forEach((collapseEl) => {
+    new Collapse(collapseEl, {
+      toggle: false
+    })
   })
 })
 </script>

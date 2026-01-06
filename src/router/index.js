@@ -31,6 +31,10 @@ import Shadows from '../views/utilities/Shadows.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
+  scrollBehavior(to, from, savedPosition) {
+    // ページ遷移時は常にページトップにスクロール
+    return { top: 0 }
+  },
   routes: [
     {
       path: '/',

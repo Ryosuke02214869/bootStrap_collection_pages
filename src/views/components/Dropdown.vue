@@ -462,12 +462,19 @@ import { onMounted } from 'vue'
 import hljs from 'highlight.js/lib/core'
 import html from 'highlight.js/lib/languages/xml'
 import 'highlight.js/styles/github.css'
+import { Dropdown } from 'bootstrap'
 
 hljs.registerLanguage('html', html)
 
 onMounted(() => {
+  // シンタックスハイライトの初期化
   document.querySelectorAll('pre code').forEach((block) => {
     hljs.highlightElement(block)
+  })
+
+  // Bootstrap Dropdownの明示的な初期化
+  document.querySelectorAll('[data-bs-toggle="dropdown"]').forEach((dropdownToggle) => {
+    new Dropdown(dropdownToggle)
   })
 })
 </script>
