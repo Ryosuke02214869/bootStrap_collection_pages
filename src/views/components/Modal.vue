@@ -84,7 +84,7 @@
           2. モーダルサイズ
         </h2>
         <p style="color: var(--text-secondary)" class="mb-3">
-          モーダルには5つのサイズがあり、<code>.modal-dialog</code>に追加のクラスを指定します。
+          モーダルには6つのサイズがあり、<code>.modal-dialog</code>に追加のクラスを指定します。
         </p>
 
         <!-- サイズ一覧テーブル -->
@@ -122,6 +122,11 @@
                 <td>Extra extra large</td>
                 <td><code>.modal-xxl</code></td>
                 <td>1320px</td>
+              </tr>
+              <tr>
+                <td>Fullscreen</td>
+                <td><code>.modal-fullscreen</code></td>
+                <td>100%（ビューポート全体）</td>
               </tr>
             </tbody>
           </table>
@@ -170,6 +175,14 @@
             >
               Extra Extra Large
             </button>
+            <button
+              type="button"
+              class="btn btn-primary"
+              data-bs-toggle="modal"
+              data-bs-target="#modalFullscreenSize"
+            >
+              Fullscreen
+            </button>
           </div>
         </div>
 
@@ -188,7 +201,10 @@
 &lt;div class="modal-dialog modal-xl"&gt;...&lt;/div&gt;
 
 &lt;!-- Extra extra large modal --&gt;
-&lt;div class="modal-dialog modal-xxl"&gt;...&lt;/div&gt;</code></pre>
+&lt;div class="modal-dialog modal-xxl"&gt;...&lt;/div&gt;
+
+&lt;!-- Fullscreen modal --&gt;
+&lt;div class="modal-dialog modal-fullscreen"&gt;...&lt;/div&gt;</code></pre>
         </div>
       </section>
 
@@ -558,6 +574,26 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
           </div>
           <div class="modal-body">これは超特大のモーダルです（1320px）。</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Fullscreen Modal (Size variation) -->
+    <div class="modal fade" id="modalFullscreenSize" tabindex="-1">
+      <div class="modal-dialog modal-fullscreen">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Fullscreen Modal</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+          <div class="modal-body">
+            これはフルスクリーンモーダルです。ビューポート全体（100%）を占有します。
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+              閉じる
+            </button>
+          </div>
         </div>
       </div>
     </div>
