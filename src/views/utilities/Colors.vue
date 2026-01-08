@@ -165,10 +165,92 @@
         </div>
       </section>
 
+      <!-- ボタンの使用例 -->
+      <section class="glass-card p-4 mb-4">
+        <h2 class="h4 mb-3" style="color: var(--text-primary); font-weight: 600">
+          5. ボタンの使用例
+        </h2>
+        <p style="color: var(--text-secondary)" class="mb-3">
+          <code>.btn-*</code>クラスでボタンにカラーを適用できます。通常、アウトライン、リンクの3つのスタイルがあります。
+        </p>
+
+        <!-- 通常のボタン -->
+        <div class="mb-4">
+          <h5 class="h6 mb-3" style="color: var(--text-primary)">通常のボタン</h5>
+          <div class="preview-box mb-3">
+            <div class="d-flex flex-wrap gap-2">
+              <button type="button" class="btn btn-primary">Primary</button>
+              <button type="button" class="btn btn-secondary">Secondary</button>
+              <button type="button" class="btn btn-success">Success</button>
+              <button type="button" class="btn btn-danger">Danger</button>
+              <button type="button" class="btn btn-warning">Warning</button>
+              <button type="button" class="btn btn-info">Info</button>
+              <button type="button" class="btn btn-light">Light</button>
+              <button type="button" class="btn btn-dark">Dark</button>
+            </div>
+          </div>
+
+          <div class="code-box">
+            <pre><code class="language-html">&lt;button type="button" class="btn btn-primary"&gt;Primary&lt;/button&gt;
+&lt;button type="button" class="btn btn-secondary"&gt;Secondary&lt;/button&gt;
+&lt;button type="button" class="btn btn-success"&gt;Success&lt;/button&gt;
+&lt;button type="button" class="btn btn-danger"&gt;Danger&lt;/button&gt;
+&lt;button type="button" class="btn btn-warning"&gt;Warning&lt;/button&gt;
+&lt;button type="button" class="btn btn-info"&gt;Info&lt;/button&gt;</code></pre>
+          </div>
+        </div>
+
+        <!-- アウトラインボタン -->
+        <div class="mb-4">
+          <h5 class="h6 mb-3" style="color: var(--text-primary)">アウトラインボタン</h5>
+          <div class="preview-box mb-3">
+            <div class="d-flex flex-wrap gap-2">
+              <button type="button" class="btn btn-outline-primary">Primary</button>
+              <button type="button" class="btn btn-outline-secondary">Secondary</button>
+              <button type="button" class="btn btn-outline-success">Success</button>
+              <button type="button" class="btn btn-outline-danger">Danger</button>
+              <button type="button" class="btn btn-outline-warning">Warning</button>
+              <button type="button" class="btn btn-outline-info">Info</button>
+              <button type="button" class="btn btn-outline-light">Light</button>
+              <button type="button" class="btn btn-outline-dark">Dark</button>
+            </div>
+          </div>
+
+          <div class="code-box">
+            <pre><code class="language-html">&lt;button type="button" class="btn btn-outline-primary"&gt;Primary&lt;/button&gt;
+&lt;button type="button" class="btn btn-outline-secondary"&gt;Secondary&lt;/button&gt;
+&lt;button type="button" class="btn btn-outline-success"&gt;Success&lt;/button&gt;
+&lt;button type="button" class="btn btn-outline-danger"&gt;Danger&lt;/button&gt;</code></pre>
+          </div>
+        </div>
+
+        <!-- リンクスタイルボタン -->
+        <div>
+          <h5 class="h6 mb-3" style="color: var(--text-primary)">リンクスタイルボタン</h5>
+          <div class="preview-box mb-3">
+            <div class="d-flex flex-wrap gap-2">
+              <button type="button" class="btn btn-link text-primary">Primary Link</button>
+              <button type="button" class="btn btn-link text-secondary">Secondary Link</button>
+              <button type="button" class="btn btn-link text-success">Success Link</button>
+              <button type="button" class="btn btn-link text-danger">Danger Link</button>
+              <button type="button" class="btn btn-link text-warning">Warning Link</button>
+              <button type="button" class="btn btn-link text-info">Info Link</button>
+              <button type="button" class="btn btn-link text-dark">Dark Link</button>
+            </div>
+          </div>
+
+          <div class="code-box">
+            <pre><code class="language-html">&lt;button type="button" class="btn btn-link text-primary"&gt;Primary Link&lt;/button&gt;
+&lt;button type="button" class="btn btn-link text-secondary"&gt;Secondary Link&lt;/button&gt;
+&lt;button type="button" class="btn btn-link text-success"&gt;Success Link&lt;/button&gt;</code></pre>
+          </div>
+        </div>
+      </section>
+
       <!-- カラーパレット -->
       <section class="glass-card p-4 mb-4">
         <h2 class="h4 mb-3" style="color: var(--text-primary); font-weight: 600">
-          5. カラーパレット一覧
+          6. カラーパレット一覧
         </h2>
         <p style="color: var(--text-secondary)" class="mb-3">
           Bootstrapのテーマカラーの一覧です。
